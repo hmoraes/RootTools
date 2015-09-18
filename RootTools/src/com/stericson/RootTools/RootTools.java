@@ -633,13 +633,14 @@ public final class RootTools
      * This method can be used to to check if a process is running
      *
      * @param processName name of process to check
+     * @param root need root permission
      * @return <code>true</code> if process was found
      * @throws TimeoutException (Could not determine if the process is running)
      */
-    public static boolean isProcessRunning(final String processName)
+    public static boolean isProcessRunning(final String processName, boolean root)
     {
         //TODO convert to new shell
-        return getInternals().isProcessRunning(processName);
+        return getInternals().isProcessRunning(processName, root);
     }
 
     /**
@@ -659,7 +660,20 @@ public final class RootTools
     public static boolean killProcess(final String processName)
     {
         //TODO convert to new shell
-        return getInternals().killProcess(processName);
+        return getInternals().killProcess(processName, true);
+    }
+
+    /**
+     * This method can be used to kill a running process
+     *
+     * @param processName name of process to kill
+     * @param root need root permission
+     * @return <code>true</code> if process was found and killed successfully
+     */
+    public static boolean killProcess(final String processName, boolean root)
+    {
+        //TODO convert to new shell
+        return getInternals().killProcess(processName, root);
     }
 
     /**

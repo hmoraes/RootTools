@@ -40,6 +40,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
@@ -1403,10 +1404,11 @@ public final class RootToolsInternalMethods
      * This method can be used to to check if a process is running
      *
      * @param processName name of process to check
+     * @param root need root permission
      * @return <code>true</code> if process was found
      * @throws TimeoutException (Could not determine if the process is running)
      */
-    public boolean isProcessRunning(final String processName)
+    public boolean isProcessRunning(final String processName, boolean root)
     {
 
         RootTools.log("Checks if process is running: " + processName);
@@ -1428,8 +1430,8 @@ public final class RootToolsInternalMethods
                     super.commandOutput(id, line);
                 }
             };
-            RootTools.getShell(true).add(command);
-            commandWait(RootTools.getShell(true), command);
+            RootTools.getShell(root).add(command);
+            commandWait(RootTools.getShell(root), command);
 
         }
         catch (Exception e)
@@ -1444,9 +1446,10 @@ public final class RootToolsInternalMethods
      * This method can be used to kill a running process
      *
      * @param processName name of process to kill
+     * @param root need root permission
      * @return <code>true</code> if process was found and killed successfully
      */
-    public boolean killProcess(final String processName)
+    public boolean killProcess(final String processName, boolean root)
     {
         RootTools.log("Killing process " + processName);
 
@@ -1493,8 +1496,8 @@ public final class RootToolsInternalMethods
                     super.commandOutput(id, line);
                 }
             };
-            RootTools.getShell(true).add(command);
-            commandWait(RootTools.getShell(true), command);
+            RootTools.getShell(root).add(command);
+            commandWait(RootTools.getShell(root), command);
 
             // get all pids in one string, created in process method
             String pids = InternalVariables.pid_list;
@@ -1506,8 +1509,8 @@ public final class RootToolsInternalMethods
                 {
                     // example: kill -9 1234 1222 5343
                     command = new Command(0, false, "kill -9 " + pids);
-                    RootTools.getShell(true).add(command);
-                    commandWait(RootTools.getShell(true), command);
+                    RootTools.getShell(root).add(command);
+                    commandWait(RootTools.getShell(root), command);
 
                     return true;
                 }
